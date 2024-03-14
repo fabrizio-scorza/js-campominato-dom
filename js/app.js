@@ -7,6 +7,8 @@
     
     startButtonElement.addEventListener('click', startGame);
 
+
+
 //funzione che inizia il gioco
 function startGame(){
     //azzerare il campo in caso fosse già stato cliccato il bottone
@@ -20,8 +22,6 @@ function startGame(){
     //invocare la funzione che genera il campo
     createField(gridSide, gameScore);
 }
-
-
 
 //funzione che ritora il lato del campo in base alla difficoltà
 function getSize(){

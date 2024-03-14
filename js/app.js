@@ -65,7 +65,10 @@ function createField(side, point){
         cellElement.className = 'cell unclicked';
 
         // inserire all'interno del codice html il numero della casella corrispondente 
-        cellElement.innerHTML = cellNum;       
+        cellElement.innerHTML = `
+            <span>${cellNum}</span> 
+            <img src="./css/img/rasengan500px.png" alt="">
+            `;      
      
         //aggiungere l'elemento creato all'interno del campo
         fieldElement.append(cellElement);

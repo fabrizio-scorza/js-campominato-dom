@@ -47,13 +47,26 @@
     font-size: 22px;
     cursor: pointer;
 }
-.bomb.clicked{
-    background-color: red;
+.cell img{
+    display: none;
+}
+
+.bomb.clicked{    
+    background:radial-gradient(circle, rgba(41,255,253,1) 0%, rgba(255,255,255,1) 22%, rgba(20,28,122,1) 100%); 
+}
+.bomb.clicked img{
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    object-position: center;
+}
+.bomb.clicked span{
+    display: none;
 }
 
 .clicked{
-    background-color: blue;
-    /* background:radial-gradient(circle, rgba(41,255,253,1) 0%, rgba(255,255,255,1) 22%, rgba(20,28,122,1) 100%); */
+     background:radial-gradient(circle, rgba(41,255,253,1) 0%, rgba(255,255,255,1) 22%, rgba(20,28,122,1) 100%); 
 }
 
 #start-btn, #difficulty{

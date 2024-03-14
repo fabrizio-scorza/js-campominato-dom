@@ -47,42 +47,87 @@ function createField(side){
     //dichiarare una variabile con il numero totale di elementi da creare nel DOM
     const area = side**2; //number
 
+    //richiamo la funzione che mi genera le bombe
+    const bombsAreAtCells = bombCells(area) //array
+    console.log(bombsAreAtCells);
+
     //creare gli elementi da inserire nel DOM per ogni casella
     for(let i = 0; i < area; i++){
         //creare una variabile numero da inserire all'interno della cella
-        let num = i + 1; //numbre
-        
+        let cellNum = i + 1; //number
+        let isABomb = false; //boolean
+
         //creare l'oggetto da posizionare nel DOM e inserirlo in una variabile
         const cellElement = document.createElement('div'); // object
         
         //dichiarare la classe cell come classe dell'elemento appena creato
-        cellElement.className = 'cell';
+        cellElement.className = 'cell unclicked';
 
         // inserire all'interno del codice html il numero della casella corrispondente 
-        cellElement.innerHTML = num;
-
+        cellElement.innerHTML = cellNum;       
+     
         //aggiungere l'elemento creato all'interno del campo
         fieldElement.append(cellElement);
 
+        // scorro l'array e confronto ogni numero con l'attuale numero di cella
+        for (let j = 0; j < bombsAreAtCells.length; j++){
+            if (cellNum === bombsAreAtCells[j]){
+                isABomb = true; //boolean
+            }
+        }  
+        if(isABomb === true){
+            //inserisco la classe bomba
+            cellElement.classList.add('bomb');
+        }
+
         //ascoltare il click sulla casella 
         cellElement.addEventListener('click', function(){
-            // aggiungere o togliere la classe che ne colora il backgroud
-            cellElement.classList.toggle('clicked');
+            // toliere la classe unclicked e aggiungere la classe cliscked
+            cellElement.classList.remove('unclicked');
+            cellElement.classList.add('clicked');
 
-            console.log(`cliccata casella numero: ${num}`);
+            console.log(`cliccata casella numero: ${cellNum}`);
         })
     }
 }
 
+// funzione che genera un array di 16 numeri casuali univoci da 1 al massimo delle caselle del campo
+function bombCells (rangeOfCells){ 
+    // inizializzo l'array 
+    let cellNumbers = []; //array
 
-// faccio generare un array di 16 numeri casuali univoci nel range che va da 1 al massimo delle caselle in base alla difficolta all'interno della funzione che fa partire il gioco
-    //invoco una funzione che mi crea un numero random da un min a un max 
-    //controllo se il numero generato è già presente nmell'array
+    //finchè l'array non ha 16 numeri univoci
+    do {
+        //invoco una funzione che mi crea un numero random da un min a un max
+        const cellNum =  randomNumberMinMax(1, rangeOfCells); //number
+
+        //dichiaro una variabile di controllo per vedere se il numero è un duplicato
+        let isDuplicate = false; //boolean
+
+        for (let i = 0; i < cellNumbers.length; i++){
+            //controllo se il numero generato è già presente in tutto l'array
+            if (cellNum === cellNumbers[i]){
+                isDuplicate = true;
+            }          
+        }
         // se non è presente lo aggiungo all'array
-        //altrimenti ritorno alla generazione dei numeri random finchè l'array non ha 16 numeri univoci
-    //inserisco le bombe nel campo minato aggiungendo una classe alle caselle col numero presente nell'array
-        // scorro l'array e per ogni numero presente nell'array vado a cercare l'elemento corrispondente nel dom
-            //inserisco la classe bomba 
+        if(isDuplicate === false){
+            cellNumbers.push(cellNum); 
+        }
+
+    } while (cellNumbers.length !== 16)
+
+    //restituisco l'array con la posizione delle bombe
+    return cellNumbers;
+}
+
+//funzione che mi genera un numero random intero tra un minimo e un massimo estremi compresi
+function randomNumberMinMax(min, max){
+    const minCeiled = Math.ceil(min); //number
+    const maxFlored = Math.floor(max); //number
+    const randomNumber = Math.floor(Math.random() *(maxFlored-minCeiled + 1) + minCeiled);
+    return randomNumber; //number
+}
 
 // una volta che l'utente clicca sulla casella dovrò controllare se è presente una bomba in quella casella se si l'utente perde e il gioco si ferma se no il gioco continua e viene incrementeto un contatore punteggio
     // se la casella è una casella non cliccata allora aggiungo la classe cliccata

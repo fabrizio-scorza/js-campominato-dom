@@ -12,11 +12,13 @@ function startGame(){
     //azzerare il campo in caso fosse già stato cliccato il bottone
     fieldElement.innerHTML ='';
 
+    // inizializzo la variabile punteggio
+    let gameScore = 0; //number
     //assegnare alla variabile il risultato della funzione che definisce la dimensione in base al livello
     let gridSide = getSize (); //number
 
     //invocare la funzione che genera il campo
-    createField(gridSide);
+    createField(gridSide, gameScore);
 }
 
 
@@ -40,7 +42,7 @@ function getSize(){
 }
 
 // funzione che genera il campo minato
-function createField(side){
+function createField(side, point){
     //inserisco side nel css per calcolare la lunghezza della riga
     fieldElement.style.setProperty('--side', side);
     
@@ -70,23 +72,43 @@ function createField(side){
         fieldElement.append(cellElement);
 
         // scorro l'array e confronto ogni numero con l'attuale numero di cella
-        for (let j = 0; j < bombsAreAtCells.length; j++){
-            if (cellNum === bombsAreAtCells[j]){
-                isABomb = true; //boolean
-            }
-        }  
-        if(isABomb === true){
-            //inserisco la classe bomba
-            cellElement.classList.add('bomb');
-        }
+        // for (let j = 0; j < bombsAreAtCells.length; j++){
+        //     if (cellNum === bombsAreAtCells[j]){
+        //         isABomb = true; //boolean
+        //     }
+        // }  
+        // if(isABomb === true){
+        //     //inserisco la classe bomba
+        //     cellElement.classList.add('bomb');
+        // }
 
         //ascoltare il click sulla casella 
-        cellElement.addEventListener('click', function(){
-            // toliere la classe unclicked e aggiungere la classe cliscked
-            cellElement.classList.remove('unclicked');
-            cellElement.classList.add('clicked');
+        cellElement.addEventListener('click', function(){ 
+            //se la casella è una casella è non cliccata
+            if(cellElement.classList.contains('unclicked')){ 
+                // rimuovo la classe non cliccata                               
+                cellElement.classList.remove('unclicked');
+                //aggingo la classe cliccata
+                cellElement.classList.add('clicked');
+                //incremento il punteggio
+                point++;
 
-            console.log(`cliccata casella numero: ${cellNum}`);
+                //se la casella contiene una bomba
+                // if(cellElement.classList.contains('bomb')){
+                if(bombsAreAtCells.includes(cellNum)) {
+                    // aggiungo la classe bomba
+                    cellElement.classList.add('bomb');
+
+                    // sottraggo l'ultimo click
+                    point-=1;
+                    // rimuovo listener
+                    cellElement.removeEventListener('click');
+
+                    //allerto il giocatore che ha perso
+                    alert(`HAI PERSO. Il tuo punteggio è di ${point}.`)
+                    
+                }
+            }
         })
     }
 }

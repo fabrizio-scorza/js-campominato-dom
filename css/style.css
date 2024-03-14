@@ -1,0 +1,70 @@
+/**VAR************************************************************/
+:root{
+    --side:0;
+}
+/**RESET************************************************************/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/**LAYOUT***********************************************************/
+.container{
+    max-width: 800px;
+    margin: 10px auto;
+    text-align: center;
+}
+
+/**APP**************************************************************/
+.app{
+    background: linear-gradient(90deg, rgba(20,28,122,1) 0%, rgba(41,255,253,1) 20%, rgba(255,255,255,1) 40%, rgba(41,255,253,1) 50%, rgba(255,255,255,1) 60%, rgba(41,255,253,1) 80%, rgba(20,28,122,1) 100%);
+}
+.app h1 {
+    font-size:36px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.wrapper{
+    max-height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    background-image: url(./img/naruto-minato.webp);
+    background-position: center;
+    background-size: cover;
+    user-select: none;
+
+}
+
+.cell {
+    aspect-ratio: 1 / 1;
+    border: 1px solid black;
+    width: calc(100% / var(--side));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.cell.clicked{
+    background:radial-gradient(circle, rgba(41,255,253,1) 0%, rgba(255,255,255,1) 22%, rgba(20,28,122,1) 100%);
+}
+
+#start-btn, #difficulty{
+    width: 80px;
+    height: 24px;
+    border: none;
+    border-radius: 15px;
+    background-color:rgba(20,28,122,1);
+    color:white;
+    box-shadow: 2px 4px black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    cursor:pointer;
+}
+
+#difficulty:focus-visible{
+    outline: none;
+}

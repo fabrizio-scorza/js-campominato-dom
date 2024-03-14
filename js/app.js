@@ -51,13 +51,12 @@ function createField(side, point){
 
     //richiamo la funzione che mi genera le bombe
     const bombsAreAtCells = bombCells(area) //array
-    console.log(bombsAreAtCells);
 
     //creare gli elementi da inserire nel DOM per ogni casella
     for(let i = 0; i < area; i++){
         //creare una variabile numero da inserire all'interno della cella
         let cellNum = i + 1; //number
-        let isABomb = false; //boolean
+        // let isABomb = false; //boolean
 
         //creare l'oggetto da posizionare nel DOM e inserirlo in una variabile
         const cellElement = document.createElement('div'); // object
@@ -100,13 +99,13 @@ function createField(side, point){
                     cellElement.classList.add('bomb');
 
                     // sottraggo l'ultimo click
-                    point-=1;
-                    // rimuovo listener
-                    cellElement.removeEventListener('click');
+                    point-=1;       
 
                     //allerto il giocatore che ha perso
                     alert(`HAI PERSO. Il tuo punteggio è di ${point}.`)
                     
+                    //richiamo la funzione endgame
+                    endGame(bombsAreAtCells);
                 }
             }
         })
@@ -151,10 +150,19 @@ function randomNumberMinMax(min, max){
     return randomNumber; //number
 }
 
-// una volta che l'utente clicca sulla casella dovrò controllare se è presente una bomba in quella casella se si l'utente perde e il gioco si ferma se no il gioco continua e viene incrementeto un contatore punteggio
-    // se la casella è una casella non cliccata allora aggiungo la classe cliccata
-        //se la casella cliccata è anche una casella bomba allora l'utente ha perso
-        //altrimenti se non è una bomba incremento il contatore di caselle cliccate di 1 
-    
+// funzione che al termine della partita scopre tutte le caselle con le bombe presenti
+function endGame(bombsArray){
 
-//al termine della partita decreto il punteggio e scopro tutte le caselle con le bombe presenti
+// associo ad una variabile la collezione di elementi con classe unclicked
+const remainingUnclickedCells = document.querySelectorAll('.cell');
+    for(i = 0; i < remainingUnclickedCells.length; i++){
+        // per ogni elemento rimuovo la classe unclicked
+        remainingUnclickedCells[i].classList.remove('unclicked');
+        //controllo se era una bomba e la coloro
+
+        if (bombsArray.includes(i+1)){
+            remainingUnclickedCells[i].classList.add('bomb');
+            remainingUnclickedCells[i].classList.add('clicked');
+        }
+    }
+}
